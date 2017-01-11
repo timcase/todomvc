@@ -5,13 +5,13 @@ import { SHOW_ALL, SHOW_COMPLETED, SHOW_ACTIVE } from '../constants/TodoFilters'
 
 const TODO_FILTERS = {
   [SHOW_ALL]: () => true,
-  [SHOW_ACTIVE]: todo => !todo.completed,
-  [SHOW_COMPLETED]: todo => todo.completed
+  [SHOW_ACTIVE]: todo => !todo.get('completed'),
+  [SHOW_COMPLETED]: todo => todo.get('completed')
 }
 
 export default class MainSection extends Component {
   static propTypes = {
-    todos: PropTypes.array.isRequired,
+    todos: PropTypes.object.isRequired,
     actions: PropTypes.object.isRequired
   }
 
@@ -59,7 +59,7 @@ export default class MainSection extends Component {
 
     const filteredTodos = todos.filter(TODO_FILTERS[filter])
     const completedCount = todos.reduce((count, todo) =>
-      todo.completed ? count + 1 : count,
+      todo.get('completed') ? count + 1 : count,
       0
     )
 
@@ -68,7 +68,7 @@ export default class MainSection extends Component {
         {this.renderToggleAll(completedCount)}
         <ul className="todo-list">
           {filteredTodos.map(todo =>
-            <TodoItem key={todo.id} todo={todo} {...actions} />
+            <TodoItem key={todo.get('id')} todo={todo} {...actions} />
           )}
         </ul>
         {this.renderFooter(completedCount)}

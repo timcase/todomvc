@@ -13,7 +13,7 @@ const App = ({todos, actions}) => (
 )
 
 App.propTypes = {
-  todos: PropTypes.array.isRequired,
+  todos: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired
 }
 
